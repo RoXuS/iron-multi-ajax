@@ -37,11 +37,12 @@ class IronMultiAjax {
       const ironRequest = document.createElement('iron-request');
       Polymer.dom(this.root).appendChild(ironRequest);
       ironRequest.completes.then(() => Polymer.dom(this.root).removeChild(ironRequest));
-      return ironRequest.send({ url, method: this.method, headers: this.headers, handleAs: this.handleAs });
+      const params = { url, method: this.method, headers: this.headers, handleAs: this.handleAs };
+      return ironRequest.send(params);
     });
 
     return Promise.all(promises).then((responses) => {
-      const responsesData = responses.map((response) => response.response);
+      const responsesData = responses.map(response => response.response);
       this.loading = false;
       this.fire('response', { response: responsesData });
     }).catch((error) => {

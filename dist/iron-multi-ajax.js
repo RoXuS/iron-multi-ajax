@@ -46,7 +46,8 @@ var IronMultiAjax = function () {
         ironRequest.completes.then(function () {
           return Polymer.dom(_this.root).removeChild(ironRequest);
         });
-        return ironRequest.send({ url: url, method: _this.method, headers: _this.headers, handleAs: _this.handleAs });
+        var params = { url: url, method: _this.method, headers: _this.headers, handleAs: _this.handleAs };
+        return ironRequest.send(params);
       });
 
       return Promise.all(promises).then(function (responses) {
