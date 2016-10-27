@@ -1,6 +1,6 @@
 {
   "name": "iron-multi-ajax",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Iron-ajax element for multi urls",
   "authors": [
     "Julien Rousseau <RoXuS>"
