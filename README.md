@@ -1,4 +1,4 @@
-iron-ajax web component
+iron-multi-ajax web component
 ============
 
 [![Build Status](https://travis-ci.org/RoXuS/iron-multi-ajax.svg?branch=master)](https://travis-ci.org/RoXuS/iron-multi-ajax)
