@@ -1,0 +1,86 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>iron-multi-ajax test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../sinonjs/sinon.js"></script>
+
+    <link rel="import" href="../src/iron-multi-ajax.html">
+  </head>
+  <body>
+
+    <test-fixture id="ironMultiAjax">
+      <template>
+        <iron-multi-ajax></iron-multi-ajax>
+      </template>
+    </test-fixture>
+
+    <script>
+
+      const jsonResponseHeaders = {
+        'Content-Type': 'application/json',
+      };
+
+let server = undefined;
+const users = {
+  data: 'users',
+};
+const groups = {
+  data: 'groups',
+};
+
+setup(() => {
+  server = sinon.fakeServer.create();
+  server.respondWith('GET', '/users', [200, jsonResponseHeaders, JSON.stringify(users)]);
+  server.respondWith('GET', '/groups', [200, jsonResponseHeaders, JSON.stringify(groups)]);
+  server.respondImmediately = true;
+});
+
+suite('iron-multi-ajax', () => {
+
+  test('With one url', (done) => {
+    var ironMultiAjax = fixture('ironMultiAjax');
+    ironMultiAjax.urls = ['/users'];
+
+    flush(() => {
+      ironMultiAjax.addEventListener('response', (event) => {
+        const response = event.detail.response;
+
+        assert.equal(typeof response, 'object');
+        assert.equal(response.length, 1);
+        assert.equal(response[0].data, users.data);
+
+        done();
+      });
+      ironMultiAjax.generateRequest();
+    });
+  });
+
+  test('With two urls', (done) => {
+    var ironMultiAjax = fixture('ironMultiAjax');
+    ironMultiAjax.urls = ['/users', '/groups'];
+
+    flush(() => {
+      ironMultiAjax.addEventListener('response', (event) => {
+        const response = event.detail.response;
+
+        assert.equal(typeof response, 'object');
+        assert.equal(response.length, 2);
+        assert.equal(response[0].data, users.data);
+        assert.equal(response[1].data, groups.data);
+
+        done();
+      });
+      ironMultiAjax.generateRequest();
+    });
+  });
+
+});
+
+    </script>
+  </body>
+</html>
