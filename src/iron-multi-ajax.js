@@ -13,6 +13,7 @@ class IronMultiAjax {
       loading: {
         type: Boolean,
         value: false,
+        notify: true,
       },
       handleAs: {
         type: String,

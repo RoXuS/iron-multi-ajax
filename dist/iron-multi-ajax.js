@@ -23,7 +23,8 @@ var IronMultiAjax = function () {
         headers: String,
         loading: {
           type: Boolean,
-          value: false
+          value: false,
+          notify: true
         },
         handleAs: {
           type: String,
