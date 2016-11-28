@@ -13,6 +13,7 @@
   "globals": { 
     "Polymer": true,
     "sinon": true,
+    "async": true,
     "flush": true,
     "expect": true,
     "fixture": true,

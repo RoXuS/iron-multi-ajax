@@ -47,7 +47,7 @@ class IronMultiAjax {
         url,
         method: this.method,
         headers: this.headers,
-        handleAs: this.handleAs
+        handleAs: this.handleAs,
       };
 
       if (this.contentType) {
@@ -59,16 +59,16 @@ class IronMultiAjax {
       }
 
       if (this.sync) {
-        return { ironRequest, params, };
-      } else {
-        return ironRequest.send(params);
+        return { ironRequest, params };
       }
+
+      return ironRequest.send(params);
     });
 
     if (this.sync) {
       const responses = [];
       async.eachSeries(promises, (ironRequestObject, cb) => {
-        ironRequestObject.ironRequest.send(ironRequestObject.params).then(response => {
+        ironRequestObject.ironRequest.send(ironRequestObject.params).then((response) => {
           responses.push(response.response);
           cb();
         }).catch(cb);
@@ -82,7 +82,7 @@ class IronMultiAjax {
         }
       });
     } else {
-      return Promise.all(promises).then((responses) => {
+      Promise.all(promises).then((responses) => {
         const responsesData = responses.map(response => response.response);
         this.loading = false;
         this.fire('response', { response: responsesData });
