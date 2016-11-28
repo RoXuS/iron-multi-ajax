@@ -1,5 +1,8 @@
 # Change Log
 
+## [v0.0.4](https://github.com/RoXuS/iron-ajax-multi/tree/0.0.2) (2016-11-28)
+- Add sync and bodies properties ([commit](https://github.com/RoXuS/iron-multi-ajax/commit/190828b))
+
 ## [v0.0.3](https://github.com/RoXuS/iron-ajax-multi/tree/0.0.2) (2016-11-09)
 - Notify true for loading property ([commit](https://github.com/RoXuS/iron-multi-ajax/commit/888ee5f))
 
