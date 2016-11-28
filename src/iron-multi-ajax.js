@@ -9,7 +9,7 @@ class IronMultiAjax {
         value: false,
       },
       method: String,
-      headers: String,
+      headers: Object,
       loading: {
         type: Boolean,
         value: false,
@@ -18,6 +18,12 @@ class IronMultiAjax {
       handleAs: {
         type: String,
         value: 'json',
+      },
+      contentType: String,
+      bodies: Array,
+      sync: {
+        type: Boolean,
+        value: false,
       },
     };
 
@@ -34,22 +40,57 @@ class IronMultiAjax {
   generateRequest() {
     this.loading = true;
 
-    const promises = this.urls.map((url) => {
+    const promises = this.urls.map((url, key) => {
       const ironRequest = document.createElement('iron-request');
-      Polymer.dom(this.root).appendChild(ironRequest);
-      ironRequest.completes.then(() => Polymer.dom(this.root).removeChild(ironRequest));
-      const params = { url, method: this.method, headers: this.headers, handleAs: this.handleAs };
-      return ironRequest.send(params);
+
+      const params = {
+        url,
+        method: this.method,
+        headers: this.headers,
+        handleAs: this.handleAs
+      };
+
+      if (this.contentType) {
+        params.headers['content-type'] = this.contentType;
+      }
+
+      if (this.bodies && this.bodies.length > 0 && this.bodies[key]) {
+        params.body = this.bodies[key];
+      }
+
+      if (this.sync) {
+        return { ironRequest, params, };
+      } else {
+        return ironRequest.send(params);
+      }
     });
 
-    return Promise.all(promises).then((responses) => {
-      const responsesData = responses.map(response => response.response);
-      this.loading = false;
-      this.fire('response', { response: responsesData });
-    }).catch((error) => {
-      this.loading = false;
-      this.fire('error', { error });
-    });
+    if (this.sync) {
+      const responses = [];
+      async.eachSeries(promises, (ironRequestObject, cb) => {
+        ironRequestObject.ironRequest.send(ironRequestObject.params).then(response => {
+          responses.push(response.response);
+          cb();
+        }).catch(cb);
+      }, (error) => {
+        if (error) {
+          this.loading = false;
+          this.fire('error', { error });
+        } else {
+          this.loading = false;
+          this.fire('response', { response: responses });
+        }
+      });
+    } else {
+      return Promise.all(promises).then((responses) => {
+        const responsesData = responses.map(response => response.response);
+        this.loading = false;
+        this.fire('response', { response: responsesData });
+      }).catch((error) => {
+        this.loading = false;
+        this.fire('error', { error });
+      });
+    }
   }
 
   _requestOptionsChanged() {

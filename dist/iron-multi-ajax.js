@@ -20,7 +20,7 @@ var IronMultiAjax = function () {
           value: false
         },
         method: String,
-        headers: String,
+        headers: Object,
         loading: {
           type: Boolean,
           value: false,
@@ -29,6 +29,12 @@ var IronMultiAjax = function () {
         handleAs: {
           type: String,
           value: 'json'
+        },
+        contentType: String,
+        bodies: Array,
+        sync: {
+          type: Boolean,
+          value: false
         }
       };
 
@@ -41,26 +47,61 @@ var IronMultiAjax = function () {
 
       this.loading = true;
 
-      var promises = this.urls.map(function (url) {
+      var promises = this.urls.map(function (url, key) {
         var ironRequest = document.createElement('iron-request');
-        Polymer.dom(_this.root).appendChild(ironRequest);
-        ironRequest.completes.then(function () {
-          return Polymer.dom(_this.root).removeChild(ironRequest);
-        });
-        var params = { url: url, method: _this.method, headers: _this.headers, handleAs: _this.handleAs };
-        return ironRequest.send(params);
+
+        var params = {
+          url: url,
+          method: _this.method,
+          headers: _this.headers,
+          handleAs: _this.handleAs
+        };
+
+        if (_this.contentType) {
+          params.headers['content-type'] = _this.contentType;
+        }
+
+        if (_this.bodies && _this.bodies.length > 0 && _this.bodies[key]) {
+          params.body = _this.bodies[key];
+        }
+
+        if (_this.sync) {
+          return { ironRequest: ironRequest, params: params };
+        } else {
+          return ironRequest.send(params);
+        }
       });
 
-      return Promise.all(promises).then(function (responses) {
-        var responsesData = responses.map(function (response) {
-          return response.response;
+      if (this.sync) {
+        (function () {
+          var responses = [];
+          async.eachSeries(promises, function (ironRequestObject, cb) {
+            ironRequestObject.ironRequest.send(ironRequestObject.params).then(function (response) {
+              responses.push(response.response);
+              cb();
+            }).catch(cb);
+          }, function (error) {
+            if (error) {
+              _this.loading = false;
+              _this.fire('error', { error: error });
+            } else {
+              _this.loading = false;
+              _this.fire('response', { response: responses });
+            }
+          });
+        })();
+      } else {
+        return Promise.all(promises).then(function (responses) {
+          var responsesData = responses.map(function (response) {
+            return response.response;
+          });
+          _this.loading = false;
+          _this.fire('response', { response: responsesData });
+        }).catch(function (error) {
+          _this.loading = false;
+          _this.fire('error', { error: error });
         });
-        _this.loading = false;
-        _this.fire('response', { response: responsesData });
-      }).catch(function (error) {
-        _this.loading = false;
-        _this.fire('error', { error: error });
-      });
+      }
     }
   }, {
     key: '_requestOptionsChanged',
