@@ -7,6 +7,8 @@ iron-multi-ajax web component
 
 See the [component page](https://roxus.github.io/iron-multi-ajax/components/iron-multi-ajax/#iron-multi-ajax) for more information.
 
+## Example with last-response property
+
 ```html
 <link rel="import" href="bower_components/iron-multi-ajax/dist/iron-multi-ajax.html">
 
@@ -14,6 +16,22 @@ See the [component page](https://roxus.github.io/iron-multi-ajax/components/iron
 
 // sync version
 <iron-ajax sync auto urls="[[aArrayOfUrls]]" last-response="{{data}}"></iron-ajax>
+```
+
+## Example with event
+
+```html
+<link rel="import" href="bower_components/iron-multi-ajax/dist/iron-multi-ajax.html">
+
+<iron-multi-ajax sync on-response="_handleResponse"></iron-multi-ajax>
+
+```
+```javascript
+// Handle response in javascript
+_handleResponse(event) {
+  // Array of response
+  const response = event.detail.response;
+}
 ```
 
 ## Install
