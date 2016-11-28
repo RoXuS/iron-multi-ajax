@@ -11,6 +11,9 @@ See the [component page](https://roxus.github.io/iron-multi-ajax/components/iron
 <link rel="import" href="bower_components/iron-multi-ajax/dist/iron-multi-ajax.html">
 
 <iron-ajax auto urls="[[aArrayOfUrls]]" last-response="{{data}}"></iron-ajax>
+
+// sync version
+<iron-ajax sync auto urls="[[aArrayOfUrls]]" last-response="{{data}}"></iron-ajax>
 ```
 
 ## Install
