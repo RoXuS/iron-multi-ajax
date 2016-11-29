@@ -12,10 +12,10 @@ See the [component page](https://roxus.github.io/iron-multi-ajax/components/iron
 ```html
 <link rel="import" href="bower_components/iron-multi-ajax/dist/iron-multi-ajax.html">
 
-<iron-ajax auto urls="[[aArrayOfUrls]]" last-response="{{data}}"></iron-ajax>
+<iron-multi-ajax auto urls="[[aArrayOfUrls]]" last-response="{{data}}"></iron-multi-ajax>
 
 // sync version
-<iron-ajax sync auto urls="[[aArrayOfUrls]]" last-response="{{data}}"></iron-ajax>
+<iron-multi-ajax sync auto urls="[[aArrayOfUrls]]" last-response="{{data}}"></iron-multi-ajax>
 ```
 
 ## Example with event
