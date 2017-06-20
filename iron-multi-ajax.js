@@ -85,7 +85,7 @@ class IronMultiAjax extends Polymer.Element {
               this.loading = false;
               this.dispatchEvent(new CustomEvent('response', { detail: { response: responses } }));
             }
-            Polymer.dom(this.root).removeChild(this.ironRequest);
+            this._cleanRequestElement();
           },
         );
       } else {
@@ -94,16 +94,21 @@ class IronMultiAjax extends Polymer.Element {
             const responsesData = responses.map(response => response.response);
             this.loading = false;
             this.dispatchEvent(new CustomEvent('response', { detail: { response: responsesData } }));
-            Polymer.dom(this.root).removeChild(this.ironRequest);
+            this._cleanRequestElement();
           })
           .catch((error) => {
             this.loading = false;
             this.dispatchEvent(new CustomEvent('error', { error }));
-            if (this.ironRequest) {
-              Polymer.dom(this.root).removeChild(this.ironRequest);
-            }
+            this._cleanRequestElement();
           });
       }
+    }
+  }
+
+  _cleanRequestElement() {
+    const ironRequest = Polymer.dom(this.root).querySelector('iron-request');
+    if (ironRequest) {
+      Polymer.dom(this.root).removeChild(ironRequest);
     }
   }
 
