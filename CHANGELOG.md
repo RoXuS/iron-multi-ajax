@@ -1,5 +1,8 @@
 # Change Log
 
+## [v0.1.2](https://github.com/RoXuS/iron-ajax-multi/tree/0.1.2) (2017-07-18)
+- Fix js style ([commit](https://github.com/RoXuS/iron-multi-ajax/commit/5d4d4e1))
+
 ## [v0.1.1](https://github.com/RoXuS/iron-ajax-multi/tree/0.1.1) (2017-06-20)
 Fix bug when error ([commit](https://github.com/RoXuS/iron-multi-ajax/commit/f8988bf))
 Fix bug with polymer 2.0 ([commit](https://github.com/RoXuS/iron-multi-ajax/commit/3c1337c))
