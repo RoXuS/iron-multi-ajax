@@ -86,14 +86,16 @@ class IronMultiAjax extends Polymer.Element {
               this.dispatchEvent(new CustomEvent('response', { detail: { response: responses } }));
             }
             this._cleanRequestElement();
-          },
+          }
         );
       } else {
         Promise.all(promises)
           .then((responses) => {
             const responsesData = responses.map(response => response.response);
             this.loading = false;
-            this.dispatchEvent(new CustomEvent('response', { detail: { response: responsesData } }));
+            this.dispatchEvent(
+              new CustomEvent('response', { detail: { response: responsesData } })
+            );
             this._cleanRequestElement();
           })
           .catch((error) => {
