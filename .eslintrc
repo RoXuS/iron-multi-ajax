@@ -23,6 +23,7 @@
   },
   "globals": {
     "Polymer": true,
+    "async": true,
     "sinon": true,
     "flush": true,
     "expect": true,
