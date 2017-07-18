@@ -1,5 +1,8 @@
 # Change Log
 
+## [v0.1.3](https://github.com/RoXuS/iron-ajax-multi/tree/0.1.3) (2017-07-18)
+- Add async to global var ([commit](https://github.com/RoXuS/iron-multi-ajax/commit/bb0f059))
+
 ## [v0.1.2](https://github.com/RoXuS/iron-ajax-multi/tree/0.1.2) (2017-07-18)
 - Fix js style ([commit](https://github.com/RoXuS/iron-multi-ajax/commit/5d4d4e1))
 
