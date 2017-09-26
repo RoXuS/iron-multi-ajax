@@ -1,5 +1,8 @@
 # Change Log
 
+## [v0.1.4](https://github.com/RoXuS/iron-ajax-multi/tree/0.1.4) (2017-09-26)
+- Fix version conflit of polymer ([commit](https://github.com/RoXuS/iron-multi-ajax/commit/18324cd))
+
 ## [v0.1.3](https://github.com/RoXuS/iron-ajax-multi/tree/0.1.3) (2017-07-18)
 - Add async to global var ([commit](https://github.com/RoXuS/iron-multi-ajax/commit/bb0f059))
 
